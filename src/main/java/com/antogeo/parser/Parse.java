@@ -14,9 +14,25 @@ public class Parse {
     public static void main(String[] args){
         Node<String> root = service.getRoot("1");
 
+        long startTime, stopTime, elapsedTime;
+
+        startTime = System.currentTimeMillis();
+
         parseTree(root);
 
+        stopTime = System.currentTimeMillis();
+        elapsedTime = stopTime - startTime;
+        System.out.println("");
+        System.out.println("Duration without parallelization : " + elapsedTime);
+
+        startTime = System.currentTimeMillis();
+
         parseTreeInParallel(root);
+
+        stopTime = System.currentTimeMillis();
+        elapsedTime = stopTime - startTime;
+        System.out.println("");
+        System.out.println("Duration with parallelization : " + elapsedTime);
 
     }
 
@@ -34,8 +50,6 @@ public class Parse {
     }
 
     private static void parseTreeInParallel(Node<String> node){
-
-        System.out.println("START PARALLEL");
 
         final ForkJoinPool forkJoinPool = new ForkJoinPool(15);
 
