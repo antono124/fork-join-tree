@@ -3,6 +3,7 @@ package com.antogeo.parser;
 import com.antogeo.pojo.Node;
 import com.antogeo.service.TreeService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
@@ -12,41 +13,52 @@ public class Parse {
 
     public static void main(String[] args){
         Node<String> root = service.getRoot("1");
-        try {
-            parseTree(root);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        parseTree(root);
 
         parseTreeInParallel(root);
 
     }
 
-    public static void parseTree(Node<String> node) throws InterruptedException{
+    private static void parseTree(Node<String> node) {
 
         for(Node<String> child : node.getChildren()){
             parseTree(child);
-            Thread.sleep(1000L);
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        System.out.println(node.getData());
+        System.out.print(node.getData() + " ");
     }
-
 
     private static void parseTreeInParallel(Node<String> node){
 
+        System.out.println("START PARALLEL");
+
         final ForkJoinPool forkJoinPool = new ForkJoinPool(15);
 
-        ParseTreeTask task = new ParseTreeTask(node);
+        List<Node<String>> tree = new ArrayList<>();
+
         try {
-            List<Node<String>> tree = forkJoinPool.invoke(task);
-
-
+            ParseTreeTask task = new ParseTreeTask(node);
+            tree = forkJoinPool.invoke(task);
         } catch (final Exception e){
             forkJoinPool.shutdownNow();
             e.printStackTrace();
         } finally {
             forkJoinPool.shutdown();
         }
+
+        printTree(tree.get(0));
+    }
+
+    private static void printTree(Node<String> node){
+        for(Node<String> child : node.getChildren()){
+            printTree(child);
+        }
+        System.out.print(node.getData() + " ");
     }
 
 }
