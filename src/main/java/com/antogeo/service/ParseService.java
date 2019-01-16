@@ -24,9 +24,7 @@ public class ParseService {
 
     public void parseTreeInParallel(Node<String> node){
         final ForkJoinPool forkJoinPool = new ForkJoinPool(15);
-
         List<Node<String>> tree = new ArrayList<>();
-
         try {
             ParseTreeTask task = new ParseTreeTask(node);
             tree = forkJoinPool.invoke(task);
@@ -36,7 +34,6 @@ public class ParseService {
         } finally {
             forkJoinPool.shutdown();
         }
-
         printTree(tree.get(0));
     }
 

@@ -15,7 +15,7 @@ public class TreeService {
     @Value("${tree.file.path}")
     private String treeTxtPath;
 
-    public Node<String> getRoot(String nodeName){
+    public Node<String> getTree(String nodeName){
         Map<String, Node<String>> treeMap = readTree();
         return treeMap.get(nodeName);
     }
@@ -39,5 +39,4 @@ public class TreeService {
         }
         return nodes;
     }
-
 }

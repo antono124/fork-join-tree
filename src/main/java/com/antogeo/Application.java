@@ -26,13 +26,14 @@ public class Application {
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
-            Node<String> root = treeService.getRoot("1");
-
             long startTime, stopTime, elapsedTime;
+
+            // Get the tree from the txt file
+            Node<String> tree = treeService.getTree("1");
 
             startTime = System.currentTimeMillis();
 
-            parseService.parseTree(root);
+            parseService.parseTree(tree);
 
             stopTime = System.currentTimeMillis();
             elapsedTime = stopTime - startTime;
@@ -41,7 +42,7 @@ public class Application {
 
             startTime = System.currentTimeMillis();
 
-            parseService.parseTreeInParallel(root);
+            parseService.parseTreeInParallel(tree);
 
             stopTime = System.currentTimeMillis();
             elapsedTime = stopTime - startTime;
