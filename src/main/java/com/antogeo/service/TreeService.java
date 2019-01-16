@@ -1,22 +1,28 @@
 package com.antogeo.service;
 
 import com.antogeo.pojo.Node;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+@Service
 public class TreeService {
 
-    public static Node<String> getRoot(String nodeName){
+    @Value("${tree.file.path}")
+    private String treeTxtPath;
+
+    public Node<String> getRoot(String nodeName){
         Map<String, Node<String>> treeMap = readTree();
         return treeMap.get(nodeName);
     }
 
-    private static Map<String, Node<String>> readTree(){
+    private Map<String, Node<String>> readTree(){
         Map<String, Node<String>> nodes = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\George\\Desktop\\Projects\\fork-join-tree\\tree.txt"))){
+        try (BufferedReader br = new BufferedReader(new FileReader(treeTxtPath))){
             String line, nodeName, words[];
             List<Node<String>> children;
             while ((line = br.readLine()) != null){

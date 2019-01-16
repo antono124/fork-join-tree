@@ -1,41 +1,16 @@
-package com.antogeo.parser;
+package com.antogeo.service;
 
 import com.antogeo.pojo.Node;
-import com.antogeo.service.TreeService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
-public class Parse {
+@Service
+public class ParseService {
 
-    public static void main(String[] args){
-        Node<String> root = TreeService.getRoot("1");
-
-        long startTime, stopTime, elapsedTime;
-
-        startTime = System.currentTimeMillis();
-
-        parseTree(root);
-
-        stopTime = System.currentTimeMillis();
-        elapsedTime = stopTime - startTime;
-        System.out.println("");
-        System.out.println("Duration without parallelization : " + elapsedTime);
-
-        startTime = System.currentTimeMillis();
-
-        parseTreeInParallel(root);
-
-        stopTime = System.currentTimeMillis();
-        elapsedTime = stopTime - startTime;
-        System.out.println("");
-        System.out.println("Duration with parallelization : " + elapsedTime);
-
-    }
-
-    private static void parseTree(Node<String> node) {
-
+    public void parseTree(Node<String> node) {
         for(Node<String> child : node.getChildren()){
             parseTree(child);
             try {
@@ -47,8 +22,7 @@ public class Parse {
         System.out.print(node.getData() + " ");
     }
 
-    private static void parseTreeInParallel(Node<String> node){
-
+    public void parseTreeInParallel(Node<String> node){
         final ForkJoinPool forkJoinPool = new ForkJoinPool(15);
 
         List<Node<String>> tree = new ArrayList<>();
@@ -72,5 +46,4 @@ public class Parse {
         }
         System.out.print(node.getData() + " ");
     }
-
 }
