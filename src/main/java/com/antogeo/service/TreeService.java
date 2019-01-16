@@ -26,7 +26,7 @@ public class TreeService {
                 for (int i = 1; i < words.length; i++) {
                     children.add(nodes.get(words[i]));
                 }
-                nodes.put(nodeName, new Node<String>(nodeName, children));
+                nodes.put(nodeName, new Node<>(nodeName, children));
             }
         } catch (IOException e){
             e.printStackTrace();
