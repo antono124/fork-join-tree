@@ -9,14 +9,14 @@ import java.util.*;
 
 public class TreeService {
 
-    public Node<String> getRoot(String nodeName){
+    public static Node<String> getRoot(String nodeName){
         Map<String, Node<String>> treeMap = readTree();
         return treeMap.get(nodeName);
     }
 
-    private Map<String, Node<String>> readTree(){
+    private static Map<String, Node<String>> readTree(){
         Map<String, Node<String>> nodes = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Projects\\personal\\TreeApp\\tree.txt"))){
+        try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\George\\Desktop\\Projects\\fork-join-tree\\tree.txt"))){
             String line, nodeName, words[];
             List<Node<String>> children;
             while ((line = br.readLine()) != null){

@@ -9,10 +9,8 @@ import java.util.concurrent.ForkJoinPool;
 
 public class Parse {
 
-    static TreeService service = new TreeService();
-
     public static void main(String[] args){
-        Node<String> root = service.getRoot("1");
+        Node<String> root = TreeService.getRoot("1");
 
         long startTime, stopTime, elapsedTime;
 
